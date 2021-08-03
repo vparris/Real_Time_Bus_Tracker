@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Map</title>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+        .map-overlay{
+            position: absolute;
+            left: 0;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+
+<div id="map"></div>
+<div class="map-overlay top">
+<button style="font-size: 2em;" onclick="move()">
+    Bus Route 33 Cattlemen/Pinecraft/Siesta Beach
+</button>
+</div>
+<script>
+
+mapboxgl.accessToken = 'pk.eyJ1IjoidnNwYXJyaXMiLCJhIjoiY2tyM291N3M3Mm8zZjJvbzhxOXB5cnNjNSJ9.9-97ROLfpD7Ch0FNh3Pi6w';
+
+
+var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/dark-v10',
+    center: [-82.450587,27.322669],
+    zoom: 12
+})
+
+var marker = new mapboxgl.Marker()
+    .setLngLat([-82.450587,27.322669])
+    .addTo(map);
+
+const busStops = [
+    [-82.499411,27.321502],
+    [-82.5079915393687, 27.32272604218265],
+    [-82.52763774594573,27.302833959050275],
+    [-82.56442666430478,27.278435850251707],
+];
+
+var counter = 0;
+function move(){
+    setTimeout(() =>{
+        if (counter >= busStops.length) return;
+        marker.setLngLat(busStops[counter]);
+        counter++;
+        move();
+    }, 1000);
+}
+
+map.addControl(new mapboxgl.NavigationControl());
+</script>
+</body>
+</html>
